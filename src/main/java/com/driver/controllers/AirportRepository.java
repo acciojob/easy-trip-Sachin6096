@@ -21,23 +21,9 @@ public class AirportRepository {
     HashMap<Integer, Passenger> passengerHashMap = new HashMap<>();
 
     HashMap<Integer,Integer> passangerBookingmap = new HashMap<>();
-    public String addAirport(Airport airport) {
+    public void addAirport(Airport airport) {
 
-        if(airportHashMap.containsKey(airport.getAirportName())) return "FAILURE";
-        boolean isValid = false;
-        for(City city : City.values())
-        {
-            if(city.equals(airport.getCity()))
-            {
-                isValid = true;
-                break;
-            }
-
-        }
-
-        if(!isValid) return "FAILURE";
         airportHashMap.put(airport.getAirportName(),airport);
-        return "SUCCESS";
     }
 
     public String getLargestAirportName() {
@@ -100,14 +86,13 @@ public class AirportRepository {
 
     public String addFlight(Flight flight) {
         
-        if(!flightHashMap.containsKey(flight.getFlightId()))
-        {
+
             flightHashMap.put(flight.getFlightId(), flight);
             List<Integer> list= new ArrayList<>();
             flightPassangerMap.put(flight.getFlightId(),list);
             return "SUCCESS";
-        }
-        else return "Flight Already Exist";
+
+
     }
 
     public String getAirportNameFromFlightId(Integer flightId) {
@@ -175,8 +160,8 @@ public class AirportRepository {
 
     public String addPassenger(Passenger passenger) {
 
-        if(passengerHashMap.containsKey(passenger.getPassengerId())) return "Passenger already exist";
-        else passengerHashMap.put(passenger.getPassengerId(),passenger);
+
+        passengerHashMap.put(passenger.getPassengerId(),passenger);
         return "SUCCESS";
     }
 }
