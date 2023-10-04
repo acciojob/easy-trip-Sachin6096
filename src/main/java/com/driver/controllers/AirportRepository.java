@@ -21,9 +21,23 @@ public class AirportRepository {
     HashMap<Integer, Passenger> passengerHashMap = new HashMap<>();
 
     HashMap<Integer,Integer> passangerBookingmap = new HashMap<>();
-    public void addAirport(Airport airport) {
+    public String addAirport(Airport airport) {
 
+        if(airportHashMap.containsKey(airport.getAirportName())) return "FAILURE";
+        boolean isValid = false;
+        for(City city : City.values())
+        {
+            if(city.equals(airport.getCity()))
+            {
+                isValid = true;
+                break;
+            }
+
+        }
+
+        if(!isValid) return "FAILURE";
         airportHashMap.put(airport.getAirportName(),airport);
+        return "SUCCESS";
     }
 
     public String getLargestAirportName() {
@@ -109,7 +123,7 @@ public class AirportRepository {
                 return ar.getAirportName();
             }
         }
-         return null;
+        return null;
     }
 
     public int calculateFlightFare(Integer flightId) {
@@ -127,7 +141,7 @@ public class AirportRepository {
 
         if(list.contains(passengerId)) return "FAILURE";
         Flight f = flightHashMap.get(flightId);
-        if(list.size() == f.getMaxCapacity())return "FAILURE";
+        if(list.size() >= f.getMaxCapacity())return "FAILURE";
 
         list.add(passengerId);
         flightPassangerMap.put(flightId,list);
@@ -141,6 +155,7 @@ public class AirportRepository {
         List<Integer> list = flightPassangerMap.get(flightId);
         if(!list.contains(passengerId))return "FAILURE";
         list.remove(passengerId);
+        passangerBookingmap.put(passengerId,passangerBookingmap.get(passengerId)-1);
         flightPassangerMap.put(flightId,list);
         return "SUCCESS";
     }
